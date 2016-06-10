@@ -19,15 +19,26 @@ public class Enemy {
     private int destinationX;// координата X точки назначения
     private int destinationY;// координата Y точки назначения
     private Speed speed;//скорость и направление
+    private int Vk; //коофициент на скорость
     private boolean touched;    // if droid is touched/picked up
+    private Hero hero;
 
-    public Hero(Bitmap bitmap, int x, int y) {
+    public Enemy(Bitmap bitmap, int x, int y, Hero hero) {
         this.bitmap = bitmap;
         this.x = x;
         this.y = y;
+        this.hero = hero;
         this.speed = new Speed();
+        Vk = 5;
     }
-
+    public Enemy(Bitmap bitmap, int x, int y, int Vk, Hero hero) {
+        this.bitmap = bitmap;
+        this.x = x;
+        this.y = y;
+        this.hero = hero;
+        this.speed = new Speed();
+        this.Vk = Vk;
+    }
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -93,13 +104,26 @@ public class Enemy {
     }
 
     public void update() {
+        destinationX = hero.getX();
+        destinationY = hero.getY();
+
+        float sinA, cosA, hypotenuse;
+        hypotenuse = (float) Math.sqrt((x - destinationX) * (x - destinationX) + (y - destinationY) * (y - destinationY));
+
+        if (hypotenuse > 1) {
+            sinA = Math.abs(y - destinationY) / hypotenuse;
+            cosA = Math.abs(x - destinationX) / hypotenuse;
+        } else {
+            sinA = 0;
+            cosA = 0;
+        }
 
         speed.setxDirection((x > destinationX) ? speed.DIRECTION_LEFT : speed.DIRECTION_RIGHT);
         speed.setyDirection((y > destinationY) ? speed.DIRECTION_LEFT : speed.DIRECTION_RIGHT);
-        speed.setXv(Math.abs((x - destinationX) / getWidth()));
-        speed.setYv(Math.abs((y - destinationY) / getHeight()));
-        x += (speed.getXv() * speed.getxDirection());
-        y += (speed.getYv() * speed.getyDirection());
+        speed.setXv(cosA);
+        speed.setYv(sinA);
+        x += (Vk * speed.getXv() * speed.getxDirection());
+        y += (Vk * speed.getYv() * speed.getyDirection());
 
     }
 
