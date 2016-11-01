@@ -29,6 +29,9 @@ public class MainGamePanel extends SurfaceView implements
     Hero hero;
     Enemy enemy;
     Food food;
+    GameOverAnimation gameOverAnimation;
+
+    private boolean gameIsActive = true;
 
     public MainGamePanel(Context context) {
         super(context);
@@ -39,6 +42,7 @@ public class MainGamePanel extends SurfaceView implements
         hero = new Hero(null, 50, 50);
         enemy = new Enemy(null, 250, 250, hero);
         food = new Food(dm, null, 400, 400, hero);
+        gameOverAnimation = new GameOverAnimation();
         // create the game loop thread
         thread = new MainThread(getHolder(), this);
 
@@ -77,28 +81,30 @@ public class MainGamePanel extends SurfaceView implements
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            // delegating event handling to the droid
-            hero.handleActionDown((int) event.getX(), (int) event.getY());
+        if (gameIsActive) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                // delegating event handling to the droid
+                hero.handleActionDown((int) event.getX(), (int) event.getY());
 
-            // check if in the lower part of the screen we exit
-            if (event.getY() > getHeight() - 50) {
-                thread.setRunning(false);
-                ((Activity) getContext()).finish();
-            } else {
-                Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
+                // check if in the lower part of the screen we exit
+                if (event.getY() > getHeight() - 50) {
+                    thread.setRunning(false);
+                    ((Activity) getContext()).finish();
+                } else {
+                    Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
+                }
             }
-        }
-        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            // the gestures
-            // the droid was picked up and is being dragged
-            hero.handleActionDown((int) event.getX(), (int) event.getY());
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                // the gestures
+                // the droid was picked up and is being dragged
+                hero.handleActionDown((int) event.getX(), (int) event.getY());
 
-        }
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            // touch was released
-            if (hero.isTouched()) {
-                hero.setTouched(false);
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // touch was released
+                if (hero.isTouched()) {
+                    hero.setTouched(false);
+                }
             }
         }
         return true;
@@ -106,10 +112,16 @@ public class MainGamePanel extends SurfaceView implements
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.BLACK);
-        hero.draw(canvas);
-        enemy.draw(canvas);
-        food.draw(canvas);
+        if (gameIsActive) {
+            canvas.drawColor(Color.BLACK);
+            hero.draw(canvas);
+            enemy.draw(canvas);
+            food.draw(canvas);
+        }
+        else {
+            gameOverAnimation.draw(canvas);
+            gameOverAnimation.setScore(hero.getScore());
+        }
     }
 
     /**
@@ -118,49 +130,43 @@ public class MainGamePanel extends SurfaceView implements
      * engine's update method.
      */
     public void update() {
-        // check collision with right wall if heading right
-        if (hero.getSpeed().getxDirection() == Speed.DIRECTION_RIGHT
-                && hero.getX() + hero.getWidth() / 2 >= getWidth()) {
-            hero.getSpeed().toggleXDirection();
-        }
-        // check collision with left wall if heading left
-        if (hero.getSpeed().getxDirection() == Speed.DIRECTION_LEFT
-                && hero.getX() - hero.getWidth() / 2 <= 0) {
-            hero.getSpeed().toggleXDirection();
-        }
-        // check collision with bottom wall if heading down
-        if (hero.getSpeed().getyDirection() == Speed.DIRECTION_DOWN
-                && hero.getY() + hero.getHeight() / 2 >= getHeight()) {
-            hero.getSpeed().toggleYDirection();
-        }
-        // check collision with top wall if heading up
-        if (hero.getSpeed().getyDirection() == Speed.DIRECTION_UP
-                && hero.getY() - hero.getHeight() / 2 <= 0) {
-            hero.getSpeed().toggleYDirection();
-        }
-        //food check
-        if (food.checkEated()) {
-            hero.incScore();
-            Log.d(TAG, "Score: " + String.valueOf(hero.getScore()));
-        }
-        // Update the lone droid
-        hero.update();
-        enemy.update();
-        if (enemy.checkCatch()){
-            Log.d(TAG, "Вас сожрали");
-            /*boolean retry = true;
-            // завершаем работу потока
-            thread.setRunning(false);
-            while (retry) {
-                try {
-                    thread.join();
-                    retry = false;
-                } catch (InterruptedException e) {
-                    // если не получилось, то будем пытаться еще и еще
-                }
+        if (gameIsActive) {
+            // check collision with right wall if heading right
+            if (hero.getSpeed().getxDirection() == Speed.DIRECTION_RIGHT
+                    && hero.getX() + hero.getWidth() / 2 >= getWidth()) {
+                hero.getSpeed().toggleXDirection();
             }
-            Log.d(TAG, "Thread was shut down cleanly");*/
+            // check collision with left wall if heading left
+            if (hero.getSpeed().getxDirection() == Speed.DIRECTION_LEFT
+                    && hero.getX() - hero.getWidth() / 2 <= 0) {
+                hero.getSpeed().toggleXDirection();
+            }
+            // check collision with bottom wall if heading down
+            if (hero.getSpeed().getyDirection() == Speed.DIRECTION_DOWN
+                    && hero.getY() + hero.getHeight() / 2 >= getHeight()) {
+                hero.getSpeed().toggleYDirection();
+            }
+            // check collision with top wall if heading up
+            if (hero.getSpeed().getyDirection() == Speed.DIRECTION_UP
+                    && hero.getY() - hero.getHeight() / 2 <= 0) {
+                hero.getSpeed().toggleYDirection();
+            }
+            //food check
+            if (food.checkEated()) {
+                hero.incScore();
+                Log.d(TAG, "Score: " + String.valueOf(hero.getScore()));
+            }
+            // Update the lone droid
+            hero.update();
+            enemy.update();
+
+            if (enemy.checkCatch()) {
+                Log.d(TAG, "Вас сожрали");
+                gameIsActive = false;
+            }
+        }
+        else {
+            gameOverAnimation.update();
         }
     }
-
 }
