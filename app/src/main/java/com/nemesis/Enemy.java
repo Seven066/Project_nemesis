@@ -11,14 +11,6 @@ import android.widget.RelativeLayout;
  * E-mail: 065@t-sk.ru
  */
 
-/**
- * Modified by Alex
- *
- */
-/**
- * Confirm changes by Fourp
- */
-//COMMIT TEST
 public class Enemy {
 
     public static final int RECT = 10;
