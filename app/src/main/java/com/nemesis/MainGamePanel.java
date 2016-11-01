@@ -143,16 +143,13 @@ public class MainGamePanel extends SurfaceView implements
         }
         //food check
         if (food.checkEated()) {
-            if (secondEnemy==null)
-            secondEnemy = new Enemy(null, (int) (getWidth() * Math.random()), (int) (getWidth() * Math.random()), 7, hero);
+
         }
         // Update the lone droid
         hero.update();
         enemy.update();
-        if (enemy.checkCatch()) Log.d(TAG, "Вас сожрали");
-        if (secondEnemy!=null) {
-            secondEnemy.update();
-            secondEnemy.checkCatch();
+        if (enemy.checkCatch()){
+            Log.d(TAG, "Вас сожрали");
         }
     }
 
