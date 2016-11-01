@@ -15,6 +15,9 @@ import android.widget.RelativeLayout;
  * Modified by Alex
  *
  */
+/**
+ * Confirm changes by Fourp
+ */
 //COMMIT TEST
 public class Enemy {
 
