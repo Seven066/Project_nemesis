@@ -148,6 +148,18 @@ public class MainGamePanel extends SurfaceView implements
         enemy.update();
         if (enemy.checkCatch()){
             Log.d(TAG, "Вас сожрали");
+            /*boolean retry = true;
+            // завершаем работу потока
+            thread.setRunning(false);
+            while (retry) {
+                try {
+                    thread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                    // если не получилось, то будем пытаться еще и еще
+                }
+            }
+            Log.d(TAG, "Thread was shut down cleanly");*/
         }
     }
 
