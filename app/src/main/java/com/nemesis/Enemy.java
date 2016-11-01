@@ -10,6 +10,11 @@ import android.widget.RelativeLayout;
  * Created by Fourp on 03.12.2015.
  * E-mail: 065@t-sk.ru
  */
+
+/**
+ * Modified by Alex
+ *
+ */
 //COMMIT TEST
 public class Enemy {
 
