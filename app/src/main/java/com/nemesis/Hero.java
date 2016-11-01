@@ -17,6 +17,7 @@ public class Hero {
     private int y;// координата Y
     private int destinationX;// координата X точки назначения
     private int destinationY;// координата Y точки назначения
+    private int score = 0;
     private Speed speed;//скорость и направление
     private boolean touched;    // if droid is touched/picked up
 
@@ -105,5 +106,15 @@ public class Hero {
     public void handleActionDown(int eventX, int eventY) {
         destinationX = eventX;
         destinationY = eventY;
+    }
+
+    public void incScore()
+    {
+        score = score + 1;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }
