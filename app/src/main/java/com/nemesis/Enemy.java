@@ -126,6 +126,7 @@ public class Enemy {
         x += (Vk * speed.getXv() * speed.getxDirection());
         y += (Vk * speed.getYv() * speed.getyDirection());
 
+
     }
 
     public void handleActionDown(int eventX, int eventY) {
