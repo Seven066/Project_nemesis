@@ -108,13 +108,11 @@ public class Hero {
         destinationY = eventY;
     }
 
-    public void incScore()
-    {
+    public void incScore(){
         score = score + 1;
     }
 
-    public int getScore()
-    {
+    public int getScore(){
         return score;
     }
 }

@@ -2,8 +2,12 @@ package com.nemesis;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -17,7 +21,7 @@ import android.view.SurfaceView;
  */
 public class MainGamePanel extends SurfaceView implements
         SurfaceHolder.Callback {
-    private MainActivity ma = new MainActivity();
+
     private static final String TAG = MainGamePanel.class.getSimpleName();
 
     private MainThread thread;
@@ -38,6 +42,7 @@ public class MainGamePanel extends SurfaceView implements
         food = new Food(dm, null, 400, 400, hero);
         // create the game loop thread
         thread = new MainThread(getHolder(), this);
+
         // make the GamePanel focusable so it can handle events
         setFocusable(true);
     }
@@ -139,14 +144,13 @@ public class MainGamePanel extends SurfaceView implements
         //food check
         if (food.checkEated()) {
             hero.incScore();
+            Log.d(TAG, "Score: " + String.valueOf(hero.getScore()));
         }
         // Update the lone droid
         hero.update();
         enemy.update();
         if (enemy.checkCatch()){
             Log.d(TAG, "Вас сожрали");
-            ma.showGameOverDialog(hero.getScore());
-
         }
     }
 
