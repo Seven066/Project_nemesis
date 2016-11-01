@@ -1,7 +1,6 @@
 package com.nemesis;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -63,9 +62,4 @@ public class MainActivity extends Activity {
         } else super.onBackPressed();
     }
 
-    public void showGameOverDialog(int score)
-    {
-        DialogFragment gameOverDialog = new GameOverDialog(score);
-        gameOverDialog.show(getFragmentManager(), "gameOverDialog");
-    }
 }
