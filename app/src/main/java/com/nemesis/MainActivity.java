@@ -16,9 +16,13 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    MainGamePanel mainGamePanel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // making it full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
         final Context context = this;
@@ -27,11 +31,9 @@ public class MainActivity extends Activity {
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // making it full screen
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 // set our MainGamePanel as the View
-                setContentView(new MainGamePanel(context));
+                mainGamePanel = new MainGamePanel(context);
+                setContentView(mainGamePanel);
             }
         });
 
@@ -47,5 +49,14 @@ public class MainActivity extends Activity {
     protected void onStop() {
         Log.d(TAG, "Stopping...");
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        if (mainGamePanel != null) {
+            mainGamePanel.surfaceDestroyed(mainGamePanel.getHolder());
+            this.recreate();
+        } else super.onBackPressed();
     }
 }

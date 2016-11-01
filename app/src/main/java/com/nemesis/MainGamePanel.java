@@ -2,6 +2,7 @@ package com.nemesis;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -60,16 +61,15 @@ public class MainGamePanel extends SurfaceView implements
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "Surface is being destroyed");
-        // tell the thread to shut down and wait for it to finish
-        // this is a clean shutdown
         boolean retry = true;
+        // завершаем работу потока
+        thread.setRunning(false);
         while (retry) {
             try {
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {
-                // try again shutting down the thread
+                // если не получилось, то будем пытаться еще и еще
             }
         }
         Log.d(TAG, "Thread was shut down cleanly");
@@ -151,4 +151,5 @@ public class MainGamePanel extends SurfaceView implements
         if (secondEnemy!=null)
         secondEnemy.update();
     }
+
 }
