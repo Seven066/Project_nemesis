@@ -16,10 +16,11 @@ public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+
     MainGamePanel mainGamePanel;
 
-    int screen_width;
-    int screen_height;
+    public static int screen_width;
+    public static int screen_height;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

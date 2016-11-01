@@ -19,8 +19,8 @@ public class Food {
     private Bitmap bitmap;
     private Hero hero;
     private DisplayMetrics dm;
-    private int width;
-    private int height;
+    private int width = MainActivity.screen_width;
+    private int height = MainActivity.screen_height;
     private int density;
     public static final int RECT = 10;
     public static final int PAD = 100;
