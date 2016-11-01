@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -34,11 +35,11 @@ public class MainGamePanel extends SurfaceView implements
         super(context);
         // adding the callback (this) to the surface holder to intercept events
         getHolder().addCallback(this);
-
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
         // create hero
         hero = new Hero(null, 50, 50);
         enemy = new Enemy(null, 250, 250, hero);
-        food = new Food(null, 400, 400, hero);
+        food = new Food(dm, null, 400, 400, hero);
         // create the game loop thread
         thread = new MainThread(getHolder(), this);
 
@@ -148,8 +149,11 @@ public class MainGamePanel extends SurfaceView implements
         // Update the lone droid
         hero.update();
         enemy.update();
-        if (secondEnemy!=null)
-        secondEnemy.update();
+        if (enemy.checkCatch()) Log.d(TAG, "Вас сожрали");
+        if (secondEnemy!=null) {
+            secondEnemy.update();
+            secondEnemy.checkCatch();
+        }
     }
 
 }

@@ -126,11 +126,18 @@ public class Enemy {
         x += (Vk * speed.getXv() * speed.getxDirection());
         y += (Vk * speed.getYv() * speed.getyDirection());
 
-
     }
 
     public void handleActionDown(int eventX, int eventY) {
         destinationX = eventX;
         destinationY = eventY;
+    }
+
+    public boolean checkCatch() {
+        if (((hero.getX() - x) * (hero.getX() - x) + (hero.getY() - y) * (hero.getY() - y)) < 2 * RECT * RECT) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

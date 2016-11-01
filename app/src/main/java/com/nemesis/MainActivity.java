@@ -19,8 +19,6 @@ public class MainActivity extends Activity {
 
     MainGamePanel mainGamePanel;
 
-    public static int screen_width;
-    public static int screen_height;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,8 +35,6 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // set our MainGamePanel as the View
                 mainGamePanel = new MainGamePanel(context);
-                screen_width = mainGamePanel.getWidth();
-                screen_height = mainGamePanel.getHeight();
                 setContentView(mainGamePanel);
             }
         });
