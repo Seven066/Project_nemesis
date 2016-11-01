@@ -2,10 +2,10 @@ package com.nemesis;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -18,12 +18,15 @@ public class MainActivity extends Activity {
 
     MainGamePanel mainGamePanel;
 
+    int screen_width;
+    int screen_height;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // making it full screen
+        // making it full screen and block screen rotation
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         final Context context = this;
 
@@ -33,6 +36,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 // set our MainGamePanel as the View
                 mainGamePanel = new MainGamePanel(context);
+                screen_width = mainGamePanel.getWidth();
+                screen_height = mainGamePanel.getHeight();
                 setContentView(mainGamePanel);
             }
         });
