@@ -93,13 +93,15 @@ public class Hero {
     }
 
     public void update() {
-
+        float sinA, cosA, hypotenuse, Vk=7;
+        hypotenuse = (float) Math.sqrt((x - destinationX) * (x - destinationX) + (y - destinationY) * (y - destinationY));
+        //hypotenuse = hypotenuse/3;
         speed.setxDirection((x > destinationX) ? speed.DIRECTION_LEFT : speed.DIRECTION_RIGHT);
         speed.setyDirection((y > destinationY) ? speed.DIRECTION_LEFT : speed.DIRECTION_RIGHT);
-        speed.setXv(Math.abs((x - destinationX) / getWidth()));
-        speed.setYv(Math.abs((y - destinationY) / getHeight()));
-        x += (speed.getXv() * speed.getxDirection());
-        y += (speed.getYv() * speed.getyDirection());
+        speed.setXv(Math.abs((x - destinationX) / hypotenuse));
+        speed.setYv(Math.abs((y - destinationY) / hypotenuse));
+        x += (Vk*speed.getXv() * speed.getxDirection());
+        y += (Vk*speed.getYv() * speed.getyDirection());
 
     }
 

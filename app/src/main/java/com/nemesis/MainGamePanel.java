@@ -154,6 +154,7 @@ public class MainGamePanel extends SurfaceView implements
             //food check
             if (food.checkEated()) {
                 hero.incScore();
+                enemy.incSpeed();
                 Log.d(TAG, "Score: " + String.valueOf(hero.getScore()));
             }
             // Update the lone droid

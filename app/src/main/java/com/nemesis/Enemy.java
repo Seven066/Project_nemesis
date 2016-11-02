@@ -20,7 +20,7 @@ public class Enemy {
     private int destinationX;// координата X точки назначения
     private int destinationY;// координата Y точки назначения
     private Speed speed;//скорость и направление
-    private int Vk; //коофициент на скорость
+    private float Vk; //коофициент на скорость
     private boolean touched;    // if droid is touched/picked up
     private Hero hero;
 
@@ -30,9 +30,9 @@ public class Enemy {
         this.y = y;
         this.hero = hero;
         this.speed = new Speed();
-        Vk = 5;
+        Vk = 4;
     }
-    public Enemy(Bitmap bitmap, int x, int y, int Vk, Hero hero) {
+    public Enemy(Bitmap bitmap, int x, int y, float Vk, Hero hero) {
         this.bitmap = bitmap;
         this.x = x;
         this.y = y;
@@ -139,5 +139,9 @@ public class Enemy {
         } else {
             return false;
         }
+    }
+
+    public void incSpeed(){
+        Vk += Math.sqrt((float) hero.getScore()/100);
     }
 }
