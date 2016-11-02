@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        final Activity activity = this;
         final Context context = this;
 
         Button newGameButton = (Button) findViewById(R.id.newgamebutton);
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // set our MainGamePanel as the View
-                mainGamePanel = new MainGamePanel(context);
+                mainGamePanel = new MainGamePanel(context, activity);
                 setContentView(mainGamePanel);
             }
         });

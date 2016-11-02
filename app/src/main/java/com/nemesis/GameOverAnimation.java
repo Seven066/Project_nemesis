@@ -10,8 +10,22 @@ import android.graphics.Paint;
  */
 
 public class GameOverAnimation {
-    int score = 0;
-    int lines = 0;
+    private int score = 0;
+    private int lines = 0;
+
+    public int getScore() {
+        return score;
+    }
+
+    public boolean isTouch() {
+        return touch;
+    }
+
+    public void setTouch(boolean touch) {
+        this.touch = touch;
+    }
+
+    private boolean touch = false;
     Canvas canvas;
 
 
@@ -25,8 +39,6 @@ public class GameOverAnimation {
             paint.setTextSize(canvas.getHeight() / 10);
             canvas.drawText("YOU LOSE", (float) 0.1 * canvas.getWidth(), (float) 0.4 * canvas.getHeight(), paint);
             canvas.drawText("Score: " + score, (float) 0.2 * canvas.getWidth(), (float) 0.55 * canvas.getHeight(), paint);
-            paint.setTextSize(canvas.getHeight() / 18);
-            canvas.drawText("Press back", (float) 0.25 * canvas.getWidth(), (float) 0.70 * canvas.getHeight(), paint);
         }
     }
 
